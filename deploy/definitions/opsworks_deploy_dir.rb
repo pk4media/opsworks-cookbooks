@@ -27,5 +27,5 @@ define :opsworks_deploy_dir do
       action :create
       recursive true
     end
-  end
+  end if params.key? :dirs
 end
