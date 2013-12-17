@@ -14,20 +14,4 @@ node[:deploy].each do |application, deploy|
         group deploy[:group]
         variables(:database => deploy[:database])
     end
-    
-    directory "#{deploy[:deploy_to]}/shared/cache" do
-        group deploy[:group]
-        owner deploy[:user]
-        mode '0755'
-        action :create
-        recursive true
-    end
-    
-    directory "#{deploy[:deploy_to]}/shared/uploads" do
-        group deploy[:group]
-        owner deploy[:user]
-        mode '0755'
-        action :create
-        recursive true
-    end
 end
