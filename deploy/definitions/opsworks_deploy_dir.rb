@@ -20,6 +20,7 @@ define :opsworks_deploy_dir do
   end
 
   params[:dirs].each do |dir|
+    Chef::Log.debug("Creating shared directory #{dir[:name]}")
     directory "#{params[:path]}/shared/#{dir[:name]}" do
       group params[:group]
       owner params[:user]
