@@ -15,9 +15,9 @@ node[:deploy].each do |application, deploy|
         variables(:database => deploy[:database])
     end
     
-    template "#{deploy[:deploy_to]}/current/wp-content/advanced-cache.php" do
+    template "#{deploy[:deploy_to]}/current/wp-content/plugins/w3tc-wp-loader.php" do
         cookbook 'wordpress'
-        source 'advanced-cache.php.erb'
+        source 'w3tc-wp-loader.php.erb'
         mode '0660'
         owner deploy[:user]
         group deploy[:group]
