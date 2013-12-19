@@ -55,6 +55,7 @@ node[:deploy].each do |application, deploy|
     end
     
     directory "#{deploy[:deploy_to]}/shared/cache/config" do
+        recursive true
         action :delete
     end
 end
