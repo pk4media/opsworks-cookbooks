@@ -25,7 +25,7 @@ node[:deploy].each do |application, deploy|
         mode '0660'
         owner deploy[:user]
         group deploy[:group]
-        variables(:deploy_to => deploy[:deploy_to])
+        variables(:deploy_to => deploy[:deploy_to], :cache => deploy[:cache])
     end
     
     template "#{deploy[:deploy_to]}/shared/config/master.php" do
