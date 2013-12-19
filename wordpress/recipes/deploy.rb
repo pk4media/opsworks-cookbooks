@@ -6,13 +6,17 @@ node[:deploy].each do |application, deploy|
         next
     end
     
-    template "#{deploy[:deploy_to]}/current/wp-config.php" do
+    template "#{deploy[:deploy_to]}/shared/config/wp-config.php" do
         cookbook 'wordpress'
         source 'wp-config.php.erb'
         mode '0660'
         owner deploy[:user]
         group deploy[:group]
         variables(:database => deploy[:database])
+    end
+    
+    link "#{deploy[:deploy_to]}/current/wp-config.php" do
+        to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
     end
     
     template "#{deploy[:deploy_to]}/current/wp-content/plugins/w3tc-wp-loader.php" do
@@ -22,5 +26,14 @@ node[:deploy].each do |application, deploy|
         owner deploy[:user]
         group deploy[:group]
         variables(:deploy_to => deploy[:deploy_to])
+    end
+    
+    template "#{deploy[:deploy_to]}/shared/cache/config/master.php" do
+        cookbook 'wordpress'
+        source 'master.php.erb'
+        mode '0660'
+        owner deploy[:user]
+        group deploy[:group]
+        variables(:memcached => deploy[:memcached])
     end
 end
