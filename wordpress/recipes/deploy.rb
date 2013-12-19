@@ -25,7 +25,7 @@ node[:deploy].each do |application, deploy|
         mode '0660'
         owner deploy[:user]
         group deploy[:group]
-        variables(:deploy_to => deploy[:deploy_to], :cache => deploy[:cache])
+        variables(:deploy_to => deploy[:deploy_to])
     end
     
     template "#{deploy[:deploy_to]}/shared/config/master.php" do
@@ -34,7 +34,7 @@ node[:deploy].each do |application, deploy|
         mode '0660'
         owner deploy[:user]
         group deploy[:group]
-        variables(:memcached => deploy[:memcached])
+        variables(:memcached => deploy[:memcached], :cache => deploy[:cache])
     end
     
     link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master.php" do
@@ -47,7 +47,7 @@ node[:deploy].each do |application, deploy|
         mode '0660'
         owner deploy[:user]
         group deploy[:group]
-        variables(:memcached => deploy[:memached])
+        variables(:memcached => deploy[:memached], :cache => deploy[:cache])
     end
     
     link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master-admin.php" do
