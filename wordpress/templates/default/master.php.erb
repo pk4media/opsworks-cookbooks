@@ -300,20 +300,25 @@ return array(
 	'cdn.s3.cname' => array(
 	),
 	'cdn.s3.ssl' => 'auto',
-	'cdn.cf.key' => 'AKIAJEGIPNULYKY24G2A',
-	'cdn.cf.secret' => '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',
-	'cdn.cf.bucket' => 'mylivingbeing',
-	'cdn.cf.id' => 'd13oaw6qhj3z5q',
+	'cdn.cf.key' => <%= @cache[:aws_key].to_s.inspect %>,
+	'cdn.cf.secret' => <%= @cache[:aws_secret].to_s.inspect %>,
+	'cdn.cf.bucket' => <%= @cache[:bucket].to_s.inspect %>,
+	'cdn.cf.id' => <%= @cache[:cf_id].to_s.inspect %>,
 	'cdn.cf.cname' => array(
+		<% unless @cache[:cname].blank? %>
+			0 => <%= @cache[:cname].to_s.inspect %>
+		<% end %>
 	),
-	'cdn.cf.ssl' => 'disabled',
-	'cdn.cf2.key' => 'AKIAIPSWHGXKDHZ7HTGQ',
-	'cdn.cf2.secret' => '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',
-	'cdn.cf2.id' => '',
+	'cdn.cf.ssl' => <%= (@cache[:ssl] || 'disabled').to_s.inspect %>,
+	'cdn.cf2.key' => <%= @cache[:aws_key].to_s.inspect %>,
+	'cdn.cf2.secret' => <%= @cache[:aws_secret].to_s.inspect %>,
+	'cdn.cf2.id' => <%= @cache[:cf_id].to_s.inspect %>,
 	'cdn.cf2.cname' => array(
-		0 => 'cdn.mylivingbeing.pk4labs.com',
+		<% unless @cache[:cname].blank? %>
+			0 => <%= @cache[:cname].to_s.inspect %>
+		<% end %>
 	),
-	'cdn.cf2.ssl' => 'disabled',
+	'cdn.cf2.ssl' => <%= (@cache[:ssl] || 'disabled').to_s.inspect %>,
 	'cdn.rscf.user' => '',
 	'cdn.rscf.key' => '',
 	'cdn.rscf.location' => 'us',
