@@ -16,7 +16,7 @@ return array(
 	'dbcache.lifetime' => 180,
 	'dbcache.memcached.persistant' => true,
 	'dbcache.memcached.servers' => array(
-		0 => <%= #{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
+		0 => <%= "#{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
 	),
 	'dbcache.reject.cookie' => array(
 	),
@@ -47,7 +47,7 @@ return array(
 	'objectcache.file.gc' => 3600,
 	'objectcache.file.locking' => false,
 	'objectcache.memcached.servers' => array(
-		0 => <%= #{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
+		0 => <%= "#{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
 	),
 	'objectcache.memcached.persistant' => true,
 	'objectcache.groups.global' => array(
@@ -76,7 +76,7 @@ return array(
 	'fragmentcache.file.gc' => 3600,
 	'fragmentcache.file.locking' => false,
 	'fragmentcache.memcached.servers' => array(
-		0 => <%= #{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
+		0 => <%= "#{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
 	),
 	'fragmentcache.memcached.persistant' => true,
 	'fragmentcache.lifetime' => 180,
@@ -91,7 +91,7 @@ return array(
 	'pgcache.file.locking' => false,
 	'pgcache.lifetime' => 3600,
 	'pgcache.memcached.servers' => array(
-		0 => <%= #{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
+		0 => <%= "#{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
 	),
 	'pgcache.memcached.persistant' => true,
 	'pgcache.check.domain' => true,
@@ -173,7 +173,7 @@ return array(
 	'minify.file.nfs' => false,
 	'minify.file.locking' => false,
 	'minify.memcached.servers' => array(
-		0 => <%= #{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
+		0 => <%= "#{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
 	),
 	'minify.memcached.persistant' => true,
 	'minify.rewrite' => true,
