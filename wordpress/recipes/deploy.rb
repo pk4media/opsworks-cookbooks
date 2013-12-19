@@ -38,7 +38,7 @@ node[:deploy].each do |application, deploy|
     end
     
     link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master.php" do
-        to "#{deploy[:deploy_to]}/shared/config/master/php"
+        to "#{deploy[:deploy_to]}/shared/config/master.php"
     end
     
     template "#{deploy[:deploy_to]}/shared/config/master-admin.php" do
