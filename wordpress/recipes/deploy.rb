@@ -58,4 +58,9 @@ node[:deploy].each do |application, deploy|
         recursive true
         action :delete
     end
+    
+    directory "#{deploy[:deploy_to]}/shared/cache/minify" do
+        recursive true
+        action :delete
+    end
 end
