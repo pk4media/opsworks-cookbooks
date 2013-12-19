@@ -53,4 +53,8 @@ node[:deploy].each do |application, deploy|
     link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master-admin.php" do
         to "#{deploy[:deploy_to]}/shared/config/master-admin.php"
     end
+    
+    directory "#{deploy[:deploy_to]}/shared/cache/config" do
+        action :delete
+    end
 end
