@@ -17,8 +17,8 @@ node[:deploy].each do |application, deploy|
   default[:deploy][application][:wordpress][:cache][:cdn][:enabled] = false
 end
 
-include_attribute 'w3_total_cache::dbcache'
-include_attribute 'w3_total_cache::objectcache'
-include_attribute 'w3_total_cache::pgcache'
-include_attribute 'w3_total_cache::minify'
-include_attribute 'w3_total_cache::cdn'
+include_attribute 'wordpress::dbcache'
+include_attribute 'wordpress::objectcache'
+include_attribute 'wordpress::pgcache'
+include_attribute 'wordpress::minify'
+include_attribute 'wordpress::cdn'
