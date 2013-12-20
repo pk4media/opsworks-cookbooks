@@ -16,7 +16,7 @@ node[:deploy].each do |application, deploy|
   end
 
   execute "run_composer" do
-    command "#{node[:wordpress][:composer][:executable]} install"
+    command "#{node[:wordpress][:composer][:executable]} update"
     cwd "#{deploy[:deploy_to]}/current"
 
     only_if do
