@@ -21,10 +21,7 @@ node[:deploy].each do |application, deploy|
     mode '0660'
     owner deploy[:user]
     group deploy[:group]
-    variables(
-      :memcached => deploy[:memcached],
-      :cache => deploy[:wordpress][:cache]
-    )
+    variables(:memcached => deploy[:memcached], :cache => deploy[:wordpress][:cache])
     only_if do
       File.exists?("#{deploy[:deploy_to]}/shared/config")
     end

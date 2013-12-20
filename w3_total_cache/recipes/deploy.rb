@@ -8,10 +8,18 @@ node[:deploy].each do |application, deploy|
 
   link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master.php" do
     to "#{deploy[:deploy_to]}/shared/config/master.php"
+
+    only_if do
+      File.exists?("#{deploy[:deploy_to]}/shared/config/master.php")
+    end
   end
   
   link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master-admin.php" do
     to "#{deploy[:deploy_to]}/shared/config/master-admin.php"
+
+    only_if do
+      File.exists?("#{deploy[:deploy_to]}/shared/config/master-admin.php")
+    end
   end
 
   template "#{deploy[:deploy_to]}/current/wp-content/plugins/w3tc-wp-loader.php" do
