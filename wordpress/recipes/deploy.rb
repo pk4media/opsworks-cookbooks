@@ -55,6 +55,7 @@ node[:deploy].each do |application, deploy|
       owner deploy[:user]
       group deploy[:group]
       variables(:memcached => deploy[:memcached], :cache => deploy[:wordpress][:cache])
+
       only_if do
         deploy[:wordpress][:cache][:enabled] && File.exists?("#{deploy[:deploy_to]}/shared/config")
       end
@@ -74,6 +75,7 @@ node[:deploy].each do |application, deploy|
       mode '0660'
       owner deploy[:user]
       group deploy[:group]
+
       only_if do
         deploy[:wordpress][:cache][:enabled] && File.exists?("#{deploy[:deploy_to]}/shared/config")
       end
@@ -96,18 +98,8 @@ node[:deploy].each do |application, deploy|
       variables(:deploy_to => deploy[:deploy_to])
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && 
+        deploy[:wordpress][:cache][:enabled]
       end
-    end
-    
-    directory "#{deploy[:deploy_to]}/shared/cache/config" do
-      recursive true
-      action :delete
-    end
-    
-    directory "#{deploy[:deploy_to]}/shared/cache/minify" do
-      recursive true
-      action :delete
     end
 
     file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
@@ -128,6 +120,7 @@ node[:deploy].each do |application, deploy|
       group deploy[:group]
       mode '0660'
       action :create
+
       only_if do
         deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled] && File.exists("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php")
       end
@@ -139,9 +132,20 @@ node[:deploy].each do |application, deploy|
       group deploy[:group]
       mode '0660'
       action :create
+
       only_if do
         deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:objectcache][:enabled] && File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php")
       end
+    end
+
+    directory "#{deploy[:deploy_to]}/shared/cache/config" do
+      recursive true
+      action :delete
+    end
+    
+    directory "#{deploy[:deploy_to]}/shared/cache/minify" do
+      recursive true
+      action :delete
     end
   end
 end
