@@ -51,7 +51,7 @@ node[:deploy].each do |application, deploy|
   end
 
   file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
-    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php").open
+    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php").read
     owner deploy[:user]
     group deploy[:group]
     mode '0660'
@@ -59,7 +59,7 @@ node[:deploy].each do |application, deploy|
   end
 
   file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/db.php" do
-    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php").open
+    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php").read
     owner deploy[:user]
     group deploy[:group]
     mode '0660'
@@ -70,7 +70,7 @@ node[:deploy].each do |application, deploy|
   end
 
   file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/object-cache.php" do
-    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php").open
+    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php").read
     owner deploy[:user]
     group deploy[:group]
     mode '0660'
