@@ -62,7 +62,7 @@ node[:deploy].each do |application, deploy|
       end
     end
 
-    link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master.php" do
+    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config/master.php" do
       to "#{deploy[:deploy_to]}/shared/config/master.php"
 
       only_if do
@@ -82,7 +82,7 @@ node[:deploy].each do |application, deploy|
       end
     end
     
-    link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master-admin.php" do
+    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config/master-admin.php" do
       to "#{deploy[:deploy_to]}/shared/config/master-admin.php"
 
       only_if do
@@ -90,13 +90,13 @@ node[:deploy].each do |application, deploy|
       end
     end
 
-    template "#{deploy[:deploy_to]}/current/wp-content/plugins/w3tc-wp-loader.php" do
+    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3tc-wp-loader.php" do
       cookbook 'wordpress'
       source 'w3tc-wp-loader.php.erb'
       mode '0660'
       owner deploy[:user]
       group deploy[:group]
-      variables(:deploy_to => deploy[:deploy_to])
+      variables(:deploy_to => deploy[:deploy_to], :system_path => deploy[:wordpress][:system_path])
 
       only_if do
         deploy[:wordpress][:cache][:enabled]
