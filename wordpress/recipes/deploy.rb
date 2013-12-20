@@ -40,6 +40,7 @@ node[:deploy].each do |application, deploy|
     command "php #{deploy[:deploy_to]}/shared/scripts/composer.phar update"
     cwd "#{deploy[:deploy_to]}/current"
     user deploy[:user]
+    group deploy[:group]
 
     only_if do
       File.exists?("#{deploy[:deploy_to]}/shared/scripts/composer.phar") && File.exists?("#{deploy[:deploy_to]}/current/composer.json")
