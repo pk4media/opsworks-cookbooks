@@ -15,11 +15,15 @@ define('WP_CACHE', true);
  * @package WordPress
  */
  
-define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . '/wordpress');
-define('WP_HOME',    'http://' . $_SERVER['SERVER_NAME']);
+<% unless @wordpress[:system_path].blank? %>
+  define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . <%= "/#{@wordpress[:system_path]}".inspect %>);
+  define('WP_HOME',    'http://' . $_SERVER['SERVER_NAME']);
+<% end %>
 
-define('WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . 'wp-content');
-define('WP_CONTENT_URL', 'http://' . $_SERVER['SERVER_NAME'] . '/wp-content');
+<% unless @wordpress[:content_path]
+  define('WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . <%= @wordpress[:content_path].to_s.inspect %>);
+  define('WP_CONTENT_URL', 'http://' . $_SERVER['SERVER_NAME'] . <%= "/#{@wordpress[:content_path]}".inspect %>);
+<% end %>
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
@@ -49,10 +53,10 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',        '7FK]pqkVVDbT_70*vTZ@Z.Aa_Uc+-)GKUJ~w[]wA,NA*$z+OhvLeH`@f$3&F-El8');
-define('SECURE_AUTH_KEY', '>l4gZi]_QCD2|=fNxexK5F!jC[gvp&3d +W5={gN@{Eb)`p*]{x.+F}RHP:Nf!an');
-define('LOGGED_IN_KEY',   'Dnx meti+|-8Bn0+&(Ctmgo#x M_Us+U[`!u=,^=l|`!xo2Fn[7B-mE?MiLyUg4_');
-define('NONCE_KEY',       '+^&X&-%,z#;YIE.IP1vs#$qa!F|i]}QyT|~?sWFZt6aSE?/2A).|5f!e0}+t48E,');
+define('AUTH_KEY',        <%= @wordpress[:keys][:auth].to_s.inspect %>);
+define('SECURE_AUTH_KEY', <%= @wordpress[:keys][:secure_auth].to_s.inspect %>);
+define('LOGGED_IN_KEY',   <%= @wordpress[:keys][:logged_in].to_s.inspect %>
+define('NONCE_KEY',       <%= @wordpress[:keys][:nonce].to_s.inspect %>
 
 /**#@-*/
 

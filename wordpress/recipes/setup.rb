@@ -1,12 +1,8 @@
-packages = [
-	'glusterfs',
-	'glusterfs-fuse'
-]
+execute "install_composer" do
+  command node[:wordpress][:composer][:install_command]
+  creates node[:wordpress][:composer][:executable]
 
-packages.each do |pkg|
-  package pkg do
-    action :install
+  only_if do
+    !node[:wordpress][:composer][:install_command].blank?
   end
 end
-
-include_recipe 'wordpress::bind_mounts'
