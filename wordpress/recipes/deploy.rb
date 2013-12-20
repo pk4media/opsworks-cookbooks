@@ -19,6 +19,10 @@ node[:deploy].each do |application, deploy|
 
   link "#{deploy[:deploy_to]}/current/wp-config.php" do
     to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
+
+    only_if do
+      File.exists?("#{deploy[:deploy_to]}/shared/config/wp-config.php")
+    end
   end
 
   execute "install_composer" do
