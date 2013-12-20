@@ -1,7 +1,6 @@
 node[:deploy].each do |application, deploy|
   next unless deploy[:application_type] == 'php'
 
-  default[:deploy][application][:wordpress][:cache][:pgcache][:enabled] = false
   default[:deploy][application][:wordpress][:cache][:pgcache][:debug] = false
   default[:deploy][application][:wordpress][:cache][:pgcache][:engine] = 'file'
   default[:deploy][application][:wordpress][:cache][:pgcache][:lifetime] = 3600

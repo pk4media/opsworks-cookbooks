@@ -5,6 +5,11 @@ node[:deploy].each do |application, deploy|
 
   default[:deploy][application][:wordpress][:cache][:dbcache][:enabled] = false
   default[:deploy][application][:wordpress][:cache][:objectcache][:enabled] = false
+  default[:deploy][application][:wordpress][:cache][:pgcache][:enabled] = false
+  default[:deploy][application][:wordpress][:cache][:minify][:enabled] = false
+  default[:deploy][application][:wordpress][:cache][:cdn][:enabled] = false
+
+  default[:deploy][application][:symlink_before_migrate] = {}
 end
 
 include_attribute 'w3_total_cache::dbcache'

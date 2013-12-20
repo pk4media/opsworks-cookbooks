@@ -1,7 +1,6 @@
 node[:deploy].each do |application, deploy|
   next unless deploy[:application_type] == 'php'
 
-  default[:deploy][application][:wordpress][:cache][:minify][:enabled] = false
   default[:deploy][application][:wordpress][:cache][:minify][:debug] = false
   default[:deploy][application][:wordpress][:cache][:minify][:engine] = 'file'
   default[:deploy][application][:wordpress][:cache][:minify][:auto][:enabled] = true
