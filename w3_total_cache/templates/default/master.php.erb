@@ -103,7 +103,7 @@ return array(
 	'pgcache.cache.404' => <%= (!!@cache[:pgcache][:cache][:_404]).to_s %>,
 	'pgcache.cache.flush' => false,
 	'pgcache.cache.headers' => array(
-		<%= @cache[:pgcache][:cache][:headers].each do |header, index| %>
+		<% @cache[:pgcache][:cache][:headers].each do |header, index| %>
 			<%= index %> => <%= header.to_s.inspect %>,
 		<% end %>
 	),
