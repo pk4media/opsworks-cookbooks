@@ -1,4 +1,4 @@
-include_recipe 'wordpress'
+include_recipe 'wordpress::deploy'
 
 node[:deploy].each do |application, deploy|
   if deploy[:application_type] != 'php'
