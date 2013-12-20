@@ -6,6 +6,15 @@ node[:deploy].each do |application, deploy|
     next
   end
 
+  execute "install_composer" do
+    command node[:wordpress][:composer][:install_command]
+    creates node[:wordpress][:composer][:executable]
+
+    only_if do
+      !node[:wordpress][:composer][:install_command].blank?
+    end
+  end
+
   execute "run_composer" do
     command "#{deploy[:wordpress][:composer][:executable]} install"
     cwd "#{deploy[:deploy_to]}/current"
