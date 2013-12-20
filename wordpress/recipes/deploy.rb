@@ -8,7 +8,8 @@ node[:deploy].each do |application, deploy|
 
   execute "install_composer" do
     command node[:wordpress][:composer][:install_command]
-    creates node[:wordpress][:composer][:executable]
+    cwd "#{deploy[:deploy_to]}/shared/scripts"
+    creates "#{deploy[:deploy_to]}/shared/scripts/composer.phar}"
 
     only_if do
       !node[:wordpress][:composer][:install_command].blank?
@@ -16,12 +17,12 @@ node[:deploy].each do |application, deploy|
   end
 
   execute "run_composer" do
-    command "#{node[:wordpress][:composer][:executable]} update"
+    command "php #{deploy[:deploy_to]}/shared/scripts/composer.phar update"
     cwd "#{deploy[:deploy_to]}/current"
     user deploy[:user]
 
     only_if do
-      File.exists?(node[:wordpress][:composer][:executable]) && File.exists?("#{deploy[:deploy_to]}/current/composer.json")
+      File.exists?("#{deploy[:deploy_to]}/shared/scripts/composer.phar}") && File.exists?("#{deploy[:deploy_to]}/current/composer.json")
     end
   end
 

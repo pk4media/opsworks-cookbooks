@@ -1,5 +1,4 @@
-default[:wordpress][:composer][:executable] = '/usr/local/bin/composer'
-default[:wordpress][:composer][:install_command] = "curl -sS https://getcomposer.org/installer | php && mv composer.phar #{node[:wordpress][:composer][:executable]}"
+default[:wordpress][:composer][:install_command] = "curl -sS https://getcomposer.org/installer | php"
 
 node[:deploy].each do |application, deploy|
   next unless deploy[:application_type] == 'php'
