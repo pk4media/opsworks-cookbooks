@@ -18,6 +18,7 @@ node[:deploy].each do |application, deploy|
   execute "run_composer" do
     command "#{node[:wordpress][:composer][:executable]} update"
     cwd "#{deploy[:deploy_to]}/current"
+    user deploy[:user]
 
     only_if do
       File.exists?(node[:wordpress][:composer][:executable]) && File.exists?("#{deploy[:deploy_to]}/current/composer.json")
