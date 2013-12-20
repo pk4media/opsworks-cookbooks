@@ -165,7 +165,7 @@ return array(
 	'pgcache.prime.sitemap' => '',
 	'pgcache.prime.post.enabled' => false,
 	'minify.enabled' => <%= (!!@cache[:minify][:enabled]).to_s %>,
-	'minify.auto' => <%= (!!@cache[:minify][:auto]).to_s %>,
+	'minify.auto' => <%= (!!@cache[:minify][:auto][:enabled]).to_s %>,
 	'minify.debug' => <%= (!!@cache[:minify][:debug]).to_s %>,
 	'minify.engine' => <%= @cache[:minify][:engine].to_s.inspect %>,
 	'minify.file.gc' => 86400,
