@@ -6,4 +6,5 @@ node[:deploy].each do |application, deploy|
 
   default[:deploy][application][:wordpress][:system_path] = 'wordpress'
   default[:deploy][application][:wordpress][:content_path] = 'wp-content'
+  default[:deploy][application][:wordpress][:default_theme] = 'twentyfourteen'
 end
