@@ -52,15 +52,19 @@ define('DB_COLLATE', '');
  * Authentication Unique Keys.
  *
  * Change these to different unique phrases!
- * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/ WordPress.org secret-key service}
+ * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt WordPress.org secret-key service}
  * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
  *
  * @since 2.6.0
  */
 define('AUTH_KEY',        <%= @wordpress[:keys][:auth].to_s.inspect %>);
 define('SECURE_AUTH_KEY', <%= @wordpress[:keys][:secure_auth].to_s.inspect %>);
-define('LOGGED_IN_KEY',   <%= @wordpress[:keys][:logged_in].to_s.inspect %>
-define('NONCE_KEY',       <%= @wordpress[:keys][:nonce].to_s.inspect %>
+define('LOGGED_IN_KEY',   <%= @wordpress[:keys][:logged_in].to_s.inspect %>);
+define('NONCE_KEY',       <%= @wordpress[:keys][:nonce].to_s.inspect %>);
+define('AUTH_SALT',        'Gv*DIloeImKF`+@ %~4uOKo;bK`pD%N}zdm, 5vksv O*PdU5+~DnF&8eH{CU<;,');
+define('SECURE_AUTH_SALT', 'A[|K}ISC6a7OCsm?[-Hqeo}=LxD:dBMhCjE|pHR9LUcl}QwhY/^s7A7$+isE;(W5');
+define('LOGGED_IN_SALT',   'Jw@2QWlH._)qQCUhaJ}P-lCJb~/8K|)0 Sg?YDr1[24A32Q&?$BC $EG^|;/oK.l');
+define('NONCE_SALT',       'jp7w|6G73ontBRkUho~~h8FfS^9XoEpe^y@^*^s+6,p4IOp (W{-Dk5b<{fA6$5[');
 
 /**#@-*/
 
