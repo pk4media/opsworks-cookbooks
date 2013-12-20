@@ -122,7 +122,7 @@ node[:deploy].each do |application, deploy|
       action :create
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled] && File.exists("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php")
+        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled] && File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php")
       end
     end
 
