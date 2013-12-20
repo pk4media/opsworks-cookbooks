@@ -49,4 +49,34 @@ node[:deploy].each do |application, deploy|
     recursive true
     action :delete
   end
+
+  file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
+    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php").open
+    owner deploy[:user]
+    group deploy[:group]
+    mode '0660'
+    action :create
+  end
+
+  file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/db.php" do
+    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php").open
+    owner deploy[:user]
+    group deploy[:group]
+    mode '0660'
+    action :create
+    only_if do
+      deploy[:wordpress][:cache][:dbcache][:enabled]
+    end
+  end
+
+  file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/object-cache.php" do
+    contents ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php").open
+    owner deploy[:user]
+    group deploy[:group]
+    mode '0660'
+    action :create
+    only_if do
+      deploy[:wordpress][:cache][:objectcache][:enabled]
+    end
+  end
 end
