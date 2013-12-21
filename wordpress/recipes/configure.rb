@@ -23,6 +23,7 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
+  Chef::Log.debug("Attempting to apply composer config to #{deploy[:home]}/.composer/config.json")
   template "#{deploy[:home]}/.composer/config.json" do
     cookbook 'wordpress'
     source 'config.json.erb'
