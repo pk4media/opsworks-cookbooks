@@ -19,6 +19,14 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
+  directory "#{deploy[:home]}/.composer" do
+    owner deploy[:user]
+    group deploy[:group]
+    mode '0700'
+    action :create
+    recursive true
+  end
+
   Chef::Log.debug("Attempting to apply composer config to #{deploy[:home]}/.composer/config.json")
   template "#{deploy[:home]}/.composer/config.json" do
     cookbook 'wordpress'
