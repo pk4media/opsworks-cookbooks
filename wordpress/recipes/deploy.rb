@@ -18,7 +18,7 @@ node[:deploy].each do |application, deploy|
   # Run composer on the new deployment to install all required packages
   execute "run_composer" do
     Chef::Log.debug("Executing composer update in #{deploy[:deploy_to]}/current for application #{application}")
-    command "#{node[:wordpress][:composer][:executable]} update"
+    command "#{node[:wordpress][:composer][:executable]} install"
     cwd "#{deploy[:deploy_to]}/current"
     user deploy[:user]
     group deploy[:group]
