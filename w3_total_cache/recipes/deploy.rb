@@ -36,7 +36,7 @@ node[:deploy].each do |application, deploy|
       mode '0660'
       owner deploy[:user]
       group deploy[:group]
-      variables(:deploy_to => deploy[:deploy_to], :system_path => deploy[:wordpress][:system_path])
+      variables(:deploy_to => deploy[:deploy_to])
     end
 
     link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/cache" do

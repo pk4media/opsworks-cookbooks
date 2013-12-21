@@ -1,6 +1,7 @@
 include_recipe "wordpress::configure"
 
 node[:deploy].each do |application, deploy|
+  deploy = node[:deploy][application]
   # Link the wordpress configuration to the value in the shared folder
   link "#{deploy[:deploy_to]}/current/wp-config.php" do
     to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
@@ -39,7 +40,7 @@ node[:deploy].each do |application, deploy|
     end
   end
 
-  link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:system_path]}" do
+  link "#{deploy[:deploy_to]}/current/wordpress" do
     to "#{deploy[:deploy_to]}/current/vendor/wordpress/wordpress"
 
     only_if do

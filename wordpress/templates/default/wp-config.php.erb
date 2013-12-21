@@ -15,10 +15,8 @@ define('WP_CACHE', true);
  * @package WordPress
  */
  
-<% unless @wordpress[:system_path].blank? %>
-  define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . <%= "/#{@wordpress[:system_path]}".inspect %>);
-  define('WP_HOME',    'http://' . $_SERVER['SERVER_NAME']);
-<% end %>
+define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . <%= "/wordpress".inspect %>);
+define('WP_HOME',    'http://' . $_SERVER['SERVER_NAME']);
 
 <% unless @wordpress[:content_path].blank? %>
   define('WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . <%= @wordpress[:content_path].to_s.inspect %>);
