@@ -1,3 +1,5 @@
+include_recpie "wordpress::configure"
+
 node[:deploy].each do |application, deploy|
   # Link the wordpress configuration to the value in the shared folder
   link "#{deploy[:deploy_to]}/current/wp-config.php" do

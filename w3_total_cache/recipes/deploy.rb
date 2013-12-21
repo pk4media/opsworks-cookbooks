@@ -1,3 +1,4 @@
+include_recipe "w3_total_cache::configure"
 include_recipe "wordpress::deploy"
 
 node[:deploy].each do |application, deploy|
