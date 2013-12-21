@@ -52,8 +52,41 @@ node[:deploy].each do |application, deploy|
     end
   end
 
+  directory "#{new_resource.deploy_to}/shared/uploads" do
+    group new_resource.group
+    owner new_resource.user
+    mode 0775
+    action :create
+    recursive true
+  end
+
+  link "#{release_path}/wp-content/uploads" do
+    to "#{new_resource.deploy_to}/shared/uploads"
+  end
+
   if deploy[:wordpress][:cache][:enabled]
     Chef::Log.debug("Wordpress w3-total-cache enabled for application #{application}")
+
+    # Setup the w3-total-cache config folder
+    directory "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config"
+      owner deploy[:user]
+      group deploy[:group]
+      mode 0775
+      action :create
+      recursive true
+    end
+
+    directory "#{deploy[:deploy_to]}/shared/cache" do
+      group new_resource.group
+      owner new_resource.user
+      mode 0775
+      action :create
+      recursive true
+    end
+
+    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/cache" do
+      to "#{deploy[:deploy_to]}/shared/cache"
+    end
 
     template "#{deploy[:deploy_to]}/shared/config/master.php" do
       Chef::Log.debug("Adding w3-total-cache config for application #{application}")
