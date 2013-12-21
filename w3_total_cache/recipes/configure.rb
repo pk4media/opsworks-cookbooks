@@ -10,7 +10,7 @@ node[:deploy].each do |application, deploy|
 
     template "#{deploy[:deploy_to]}/shared/config/master.php" do
       Chef::Log.debug("Adding w3-total-cache config for application #{application}")
-      cookbook 'wordpress'
+      cookbook 'w3_total_cache'
       source 'master.php.erb'
       mode '0660'
       owner deploy[:user]
@@ -24,7 +24,7 @@ node[:deploy].each do |application, deploy|
 
     template "#{deploy[:deploy_to]}/shared/config/master-admin.php" do
       Chef::Log.debug("Adding w3-total-cache master-admin.php for application #{application}")
-      cookbook 'wordpress'
+      cookbook 'w3_total_cache'
       source 'master-admin.php.erb'
       mode '0660'
       owner deploy[:user]
@@ -36,7 +36,7 @@ node[:deploy].each do |application, deploy|
     end
 
     template "#{deploy[:deploy_to]}/shared/config/advanced-cache.php" do
-      cookbook 'wordpress'
+      cookbook 'w3_total_cache'
       source "advanced-cache.#{deploy[:wordpress][:cache][:version]}.php.erb"
       mode '0660'
       owner deploy[:user]
@@ -44,7 +44,7 @@ node[:deploy].each do |application, deploy|
     end
 
     template "#{deploy[:deploy_to]}/shared/config/db.php" do
-      cookbook 'wordpress'
+      cookbook 'w3_total_cache'
       source "db.#{deploy[:wordpress][:cache][:version]}.php.erb"
       mode '0660'
       owner deploy[:user]
@@ -56,7 +56,7 @@ node[:deploy].each do |application, deploy|
     end
 
     template "#{deploy[:deploy_to]}/current/shared/config/object-cache.php" do
-      cookbook 'wordpress'
+      cookbook 'w3_total_cache'
       source "object-cache.#{deploy[:wordpress][:cache][:version]}.php.erb"
       mode '0660'
       owner deploy[:user]

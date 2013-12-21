@@ -31,7 +31,7 @@ node[:deploy].each do |application, deploy|
     end
 
     template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3tc-wp-loader.php" do
-      cookbook 'wordpress'
+      cookbook 'w3_total_cache'
       source 'w3tc-wp-loader.php.erb'
       mode '0660'
       owner deploy[:user]
