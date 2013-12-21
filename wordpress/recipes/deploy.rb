@@ -5,6 +5,7 @@ node[:deploy].each do |application, deploy|
   end
 
   template "#{deploy[:deploy_to]}/shared/config/wp-config.php" do
+    Chef::Log.debug("Adding wordpress config for application #{application}")
     cookbook 'wordpress'
     source 'wp-config.php.erb'
     mode '0660'
@@ -18,6 +19,7 @@ node[:deploy].each do |application, deploy|
   end
 
   link "#{deploy[:deploy_to]}/current/wp-config.php" do
+
     to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
 
     only_if do
@@ -26,30 +28,33 @@ node[:deploy].each do |application, deploy|
   end
 
   execute "install_composer" do
-    Chef::Log.debug("Installing PHP Composer to #{deploy[:deploy_to]}/shared/scripts")
+    Chef::Log.debug("Installing PHP Composer to #{deploy[:deploy_to]}/shared/scripts for application #{application}")
     command node[:wordpress][:composer][:install_command]
     cwd "#{deploy[:deploy_to]}/shared/scripts"
     creates "#{deploy[:deploy_to]}/shared/scripts/composer.phar"
 
     only_if do
-      !node[:wordpress][:composer][:install_command].blank? && File.exists?("#{deploy[:deploy_to]}/shared/scripts")
+      !node[:wordpress][:composer][:install_command].blank? && ::File.exists?("#{deploy[:deploy_to]}/shared/scripts")
     end
   end
 
   execute "run_composer" do
+    Chef::Log.debug("Executing composer update in #{deploy[:deploy_to]}/current for application #{application}")
     command "php #{deploy[:deploy_to]}/shared/scripts/composer.phar update"
     cwd "#{deploy[:deploy_to]}/current"
     user deploy[:user]
     group deploy[:group]
 
     only_if do
-      File.exists?("#{deploy[:deploy_to]}/shared/scripts/composer.phar") && File.exists?("#{deploy[:deploy_to]}/current/composer.json")
+      ::File.exists?("#{deploy[:deploy_to]}/shared/scripts/composer.phar") && ::File.exists?("#{deploy[:deploy_to]}/current/composer.json")
     end
   end
 
   if deploy[:wordpress][:cache][:enabled]
-    # Configure the w3-total-cache settings
+    Chef::Log.debug("Wordpress w3-total-cache enabled for application #{application}")
+
     template "#{deploy[:deploy_to]}/shared/config/master.php" do
+      Chef::Log.debug("Adding w3-total-cache config for application #{application}")
       cookbook 'wordpress'
       source 'master.php.erb'
       mode '0660'
@@ -58,7 +63,7 @@ node[:deploy].each do |application, deploy|
       variables(:memcached => deploy[:memcached], :cache => deploy[:wordpress][:cache])
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && File.exists?("#{deploy[:deploy_to]}/shared/config")
+        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config")
       end
     end
 
@@ -66,11 +71,12 @@ node[:deploy].each do |application, deploy|
       to "#{deploy[:deploy_to]}/shared/config/master.php"
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && File.exists?("#{deploy[:deploy_to]}/shared/config/master.php")
+        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config/master.php")
       end
     end
 
     template "#{deploy[:deploy_to]}/shared/config/master-admin.php" do
+      Chef::Log.debug("Adding w3-total-cache master-admin.php for application #{application}")
       cookbook 'wordpress'
       source 'master-admin.php.erb'
       mode '0660'
@@ -78,7 +84,7 @@ node[:deploy].each do |application, deploy|
       group deploy[:group]
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && File.exists?("#{deploy[:deploy_to]}/shared/config")
+        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config")
       end
     end
     
@@ -86,7 +92,7 @@ node[:deploy].each do |application, deploy|
       to "#{deploy[:deploy_to]}/shared/config/master-admin.php"
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && File.exists?("#{deploy[:deploy_to]}/shared/config/master-admin.php")
+        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config/master-admin.php")
       end
     end
 
@@ -104,6 +110,7 @@ node[:deploy].each do |application, deploy|
     end
 
     file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
+      Chef::Log.debug("Adding w3-total-cache advanced-cache settings for application #{application}")
       content ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php").read
       owner deploy[:user]
       group deploy[:group]
@@ -111,7 +118,7 @@ node[:deploy].each do |application, deploy|
       action :create
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php")
+        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php")
       end
     end
 
@@ -123,7 +130,7 @@ node[:deploy].each do |application, deploy|
       action :create
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled] && File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php")
+        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php")
       end
     end
 
@@ -135,7 +142,7 @@ node[:deploy].each do |application, deploy|
       action :create
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:objectcache][:enabled] && File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php")
+        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:objectcache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php")
       end
     end
 
