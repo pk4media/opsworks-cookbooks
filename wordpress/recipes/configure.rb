@@ -8,10 +8,6 @@ node[:deploy].each do |application, deploy|
     owner deploy[:user]
     group deploy[:group]
     variables(:database => deploy[:database], :wordpress => deploy[:wordpress])
-
-    only_if do
-      ::File.exists?("#{deploy[:deploy_to]}/shared/config")
-    end
   end
 
   # Create the uploads shared uploads folder (that will persist across deployments)
