@@ -57,7 +57,7 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
-  link "#deploy[:deploy_to]}/#{deploy[:wordpress][:content_path]}/uploads" do
+  link "#{deploy[:deploy_to]}/#{deploy[:wordpress][:content_path]}/uploads" do
     to "#{deploy[:deploy_to]}/shared/uploads"
   end
 
