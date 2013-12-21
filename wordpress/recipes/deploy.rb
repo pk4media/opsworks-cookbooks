@@ -144,40 +144,39 @@ node[:deploy].each do |application, deploy|
       end
     end
 
-    file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
-      Chef::Log.debug("Adding w3-total-cache advanced-cache settings for application #{application}")
-      content ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php").read
+    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
+      cookbook 'wordpress'
+      source "advanced-cache.#{deploy[:wordpress][:cache][:version]}.php.erb"
+      mode '0660'
       owner deploy[:user]
       group deploy[:group]
-      mode '0660'
-      action :create
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/advanced-cache.php")
+        deploy[:wordpress][:cache][:enabled]
       end
     end
 
-    file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/db.php" do
-      content ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php").read
+    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/db.php" do
+      cookbook 'wordpress'
+      source "db.#{deploy[:wordpress][:cache][:version]}.php.erb"
+      mode '0660'
       owner deploy[:user]
       group deploy[:group]
-      mode '0660'
-      action :create
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/db.php")
+        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled]
       end
     end
 
-    file "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/object-cache.php" do
-      content ::File.open("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php").read
+    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/object-cache.php" do
+      cookbook 'wordpress'
+      source "object-cache.#{deploy[:wordpress][:cache][:version]}.php.erb"
+      mode '0660'
       owner deploy[:user]
       group deploy[:group]
-      mode '0660'
-      action :create
 
       only_if do
-        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:objectcache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3-total-cache/wp-content/object-cache.php")
+        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:objectcache][:enabled]
       end
     end
 
