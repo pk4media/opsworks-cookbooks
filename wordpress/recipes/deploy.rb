@@ -1,4 +1,4 @@
-include_recipe "deploy"
+include_recipe "deploy::php"
 
 node[:deploy].each do |application, deploy|
   if deploy[:application_type] != 'php'
