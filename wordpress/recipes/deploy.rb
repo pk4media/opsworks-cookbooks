@@ -16,7 +16,7 @@ node[:deploy].each do |application, deploy|
     variables(:database => deploy[:database], :wordpress => deploy[:wordpress])
 
     only_if do
-      File.exists?("#{deploy[:deploy_to]}/shared/config")
+      ::File.exists?("#{deploy[:deploy_to]}/shared/config")
     end
   end
 
@@ -25,7 +25,7 @@ node[:deploy].each do |application, deploy|
     to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
 
     only_if do
-      File.exists?("#{deploy[:deploy_to]}/shared/config/wp-config.php")
+      ::File.exists?("#{deploy[:deploy_to]}/shared/config/wp-config.php")
     end
   end
 
@@ -68,7 +68,7 @@ node[:deploy].each do |application, deploy|
     Chef::Log.debug("Wordpress w3-total-cache enabled for application #{application}")
 
     # Setup the w3-total-cache config folder
-    directory "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config"
+    directory "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config" do
       owner deploy[:user]
       group deploy[:group]
       mode 0775
