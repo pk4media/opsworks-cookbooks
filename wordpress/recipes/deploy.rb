@@ -1,11 +1,11 @@
 node[:deploy].each do |application, deploy|
-  # Create the uploads shared uploads folder (that will persist across deployments)
-  directory "#{deploy[:deploy_to]}/shared/uploads" do
-    owner deploy[:user]
-    group deploy[:group]
-    mode '0775'
-    action :create
-    recursive true
+  # Link the wordpress configuration to the value in the shared folder
+  link "#{deploy[:deploy_to]}/current/wp-config.php" do
+    to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
+
+    only_if do
+      ::File.exists?("#{deploy[:deploy_to]}/shared/config/wp-config.php")
+    end
   end
 
   # Symlink the persisted uploads folder into the current deployment

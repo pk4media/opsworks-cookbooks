@@ -8,15 +8,3 @@ execute "install_composer" do
     !node[:wordpress][:composer][:install_command].blank? && !node[:wordpress][:composer][:executable].blank?
   end
 end
-
-template "#{deploy[:home]}/.composer/config.json" do
-  cookbook 'wordpress'
-  source 'config.json.erb'
-  mode '0765'
-  owner deploy[:user]
-  group deploy[:group]
-
-  only_if do
-    ::File.exists?("#{deploy[:home]}") && ::File.exists?("#{node[:wordpress][:composer][:executable]}")
-  end
-end
