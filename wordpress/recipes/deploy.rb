@@ -15,6 +15,17 @@ node[:deploy].each do |application, deploy|
     to "#{deploy[:deploy_to]}/shared/uploads"
   end
 
+  execute "prime_composer" do
+    command "#{node[:wordpress][:composer][:executable]} status"
+    cwd "#{deploy[:deploy_to]}/current"
+    user deploy[:user]
+    group deploy[:group]
+
+    only_if do
+      ::File.exists?("#{node[:wordpress][:composer][:executable]}") && ::File.exists?("#{deploy[:deploy_to]}/current/composer.json")
+    end
+  end
+
   # Run composer on the new deployment to install all required packages
   execute "run_composer" do
     Chef::Log.debug("Executing composer update in #{deploy[:deploy_to]}/current for application #{application}")
