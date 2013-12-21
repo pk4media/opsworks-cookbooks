@@ -1,54 +1,5 @@
 node[:deploy].each do |application, deploy|
-  if deploy[:application_type] != 'php'
-    Chef::Log.debug("Skipping wordpress::deploy application #{application} as it is not an PHP app")
-    next
-  end
-
-  template "#{deploy[:deploy_to]}/shared/config/wp-config.php" do
-    Chef::Log.debug("Adding wordpress config for application #{application}")
-    cookbook 'wordpress'
-    source 'wp-config.php.erb'
-    mode '0660'
-    owner deploy[:user]
-    group deploy[:group]
-    variables(:database => deploy[:database], :wordpress => deploy[:wordpress])
-
-    only_if do
-      ::File.exists?("#{deploy[:deploy_to]}/shared/config")
-    end
-  end
-
-  link "#{deploy[:deploy_to]}/current/wp-config.php" do
-    to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
-
-    only_if do
-      ::File.exists?("#{deploy[:deploy_to]}/shared/config/wp-config.php")
-    end
-  end
-
-  execute "install_composer" do
-    Chef::Log.debug("Installing PHP Composer to #{deploy[:deploy_to]}/shared/scripts for application #{application}")
-    command node[:wordpress][:composer][:install_command]
-    cwd "#{deploy[:deploy_to]}/shared/scripts"
-    creates "#{deploy[:deploy_to]}/shared/scripts/composer.phar"
-
-    only_if do
-      !node[:wordpress][:composer][:install_command].blank? && ::File.exists?("#{deploy[:deploy_to]}/shared/scripts")
-    end
-  end
-
-  execute "run_composer" do
-    Chef::Log.debug("Executing composer update in #{deploy[:deploy_to]}/current for application #{application}")
-    command "php #{deploy[:deploy_to]}/shared/scripts/composer.phar update"
-    cwd "#{deploy[:deploy_to]}/current"
-    user deploy[:user]
-    group deploy[:group]
-
-    only_if do
-      ::File.exists?("#{deploy[:deploy_to]}/shared/scripts/composer.phar") && ::File.exists?("#{deploy[:deploy_to]}/current/composer.json")
-    end
-  end
-
+  # Create the uploads shared uploads folder (that will persist across deployments)
   directory "#{deploy[:deploy_to]}/shared/uploads" do
     owner deploy[:user]
     group deploy[:group]
@@ -57,134 +8,29 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
-  link "#{deploy[:deploy_to]}/#{deploy[:wordpress][:content_path]}/uploads" do
+  # Symlink the persisted uploads folder into the current deployment
+  link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/uploads" do
     to "#{deploy[:deploy_to]}/shared/uploads"
   end
 
-  if deploy[:wordpress][:cache][:enabled]
-    Chef::Log.debug("Wordpress w3-total-cache enabled for application #{application}")
+  # Run composer on the new deployment to install all required packages
+  execute "run_composer" do
+    Chef::Log.debug("Executing composer update in #{deploy[:deploy_to]}/current for application #{application}")
+    command "#{node[:wordpress][:composer][:executable]} update"
+    cwd "#{deploy[:deploy_to]}/current"
+    user deploy[:user]
+    group deploy[:group]
 
-    # Setup the w3-total-cache config folder
-    directory "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config" do
-      owner deploy[:user]
-      group deploy[:group]
-      mode '0775'
-      action :create
-      recursive true
+    only_if do
+      ::File.exists?("#{node[:wordpress][:composer][:executable]}") && ::File.exists?("#{deploy[:deploy_to]}/current/composer.json")
     end
+  end
 
-    directory "#{deploy[:deploy_to]}/shared/cache" do
-      owner deploy[:user]
-      group deploy[:group]
-      mode '0775'
-      action :create
-      recursive true
-    end
+  link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:system_path]}" do
+    to "#{deploy[:deploy_to]}/current/vendor/wordpress/wordpress"
 
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/cache" do
-      to "#{deploy[:deploy_to]}/shared/cache"
-    end
-
-    template "#{deploy[:deploy_to]}/shared/config/master.php" do
-      Chef::Log.debug("Adding w3-total-cache config for application #{application}")
-      cookbook 'wordpress'
-      source 'master.php.erb'
-      mode '0660'
-      owner deploy[:user]
-      group deploy[:group]
-      variables(:memcached => deploy[:memcached], :cache => deploy[:wordpress][:cache])
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config")
-      end
-    end
-
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config/master.php" do
-      to "#{deploy[:deploy_to]}/shared/config/master.php"
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config/master.php")
-      end
-    end
-
-    template "#{deploy[:deploy_to]}/shared/config/master-admin.php" do
-      Chef::Log.debug("Adding w3-total-cache master-admin.php for application #{application}")
-      cookbook 'wordpress'
-      source 'master-admin.php.erb'
-      mode '0660'
-      owner deploy[:user]
-      group deploy[:group]
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config")
-      end
-    end
-    
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config/master-admin.php" do
-      to "#{deploy[:deploy_to]}/shared/config/master-admin.php"
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled] && ::File.exists?("#{deploy[:deploy_to]}/shared/config/master-admin.php")
-      end
-    end
-
-    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3tc-wp-loader.php" do
-      cookbook 'wordpress'
-      source 'w3tc-wp-loader.php.erb'
-      mode '0660'
-      owner deploy[:user]
-      group deploy[:group]
-      variables(:deploy_to => deploy[:deploy_to], :system_path => deploy[:wordpress][:system_path])
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled]
-      end
-    end
-
-    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
-      cookbook 'wordpress'
-      source "advanced-cache.#{deploy[:wordpress][:cache][:version]}.php.erb"
-      mode '0660'
-      owner deploy[:user]
-      group deploy[:group]
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled]
-      end
-    end
-
-    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/db.php" do
-      cookbook 'wordpress'
-      source "db.#{deploy[:wordpress][:cache][:version]}.php.erb"
-      mode '0660'
-      owner deploy[:user]
-      group deploy[:group]
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:dbcache][:enabled]
-      end
-    end
-
-    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/object-cache.php" do
-      cookbook 'wordpress'
-      source "object-cache.#{deploy[:wordpress][:cache][:version]}.php.erb"
-      mode '0660'
-      owner deploy[:user]
-      group deploy[:group]
-
-      only_if do
-        deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:objectcache][:enabled]
-      end
-    end
-
-    directory "#{deploy[:deploy_to]}/shared/cache/config" do
-      recursive true
-      action :delete
-    end
-    
-    directory "#{deploy[:deploy_to]}/shared/cache/minify" do
-      recursive true
-      action :delete
+    only_if do
+      ::File.exists?("#{deploy[:deploy_to]}/current/vendor/wordpress/wordpress")
     end
   end
 end
