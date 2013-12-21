@@ -62,14 +62,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         <%= @wordpress[:keys][:auth].to_s.html_safe.inspect %>);
-define('SECURE_AUTH_KEY',  <%= @wordpress[:keys][:secure_auth].to_s.html_safe.inspect %>);
-define('LOGGED_IN_KEY',    <%= @wordpress[:keys][:logged_in].to_s.html_safe.inspect %>);
-define('NONCE_KEY',        <%= @wordpress[:keys][:nonce].to_s.html_safe.inspect %>);
-define('AUTH_SALT',        <%= @wordpress[:keys][:auth_salt].to_s.html_safe.inspect %>);
-define('SECURE_AUTH_SALT', <%= @wordpress[:keys][:secure_auth_salt].to_s.html_safe.inspect %>);
-define('LOGGED_IN_SALT',   <%= @wordpress[:keys][:logged_in_salt].to_s.html_safe.inspect %>);
-define('NONCE_SALT',       <%= @wordpress[:keys][:nonce_salt].to_s.html_safe.inspect %>);
+define('AUTH_KEY',         '<%= @wordpress[:keys][:auth].to_s %>');
+define('SECURE_AUTH_KEY',  '<%= @wordpress[:keys][:secure_auth].to_s %>');
+define('LOGGED_IN_KEY',    '<%= @wordpress[:keys][:logged_in].to_s %>');
+define('NONCE_KEY',        '<%= @wordpress[:keys][:nonce].to_s %>');
+define('AUTH_SALT',        '<%= @wordpress[:keys][:auth_salt].to_s %>');
+define('SECURE_AUTH_SALT', '<%= @wordpress[:keys][:secure_auth_salt].to_s %>');
+define('LOGGED_IN_SALT',   '<%= @wordpress[:keys][:logged_in_salt].to_s %>');
+define('NONCE_SALT',       '<%= @wordpress[:keys][:nonce_salt].to_s %>');
 
 /**#@-*/
 
