@@ -51,15 +51,19 @@ node[:deploy].each do |application, deploy|
       to "#{deploy[:deploy_to]}/shared/config/advanced-cache.php"
     end
 
-    if deploy[:wordpress][:cache][:db][:enabled]
-      link "#{deploy[:deploy_to]}/current/wp-content/db.php" do
-        to "#{deploy[:deploy_to]}/shared/config/db.php"
+    link "#{deploy[:deploy_to]}/current/wp-content/db.php" do
+      to "#{deploy[:deploy_to]}/shared/config/db.php"
+
+      only_if do
+        deploy[:wordpress][:cache][:dbcache][:enabled]
       end
     end
 
-    if deploy[:wordpress][:cache][:objectcache][:enabled]
-      link "#{deploy[:deploy_to]}/current/wp-content/object-cache.php" do
-        to "#{deploy[:deploy_to]}/shared/config/object-cache.php"
+    link "#{deploy[:deploy_to]}/current/wp-content/object-cache.php" do
+      to "#{deploy[:deploy_to]}/shared/config/object-cache.php"
+
+      only_if do
+        deploy[:wordpress][:cache][:objectcache][:enabled]
       end
     end
     
