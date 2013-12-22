@@ -30,7 +30,7 @@ node[:deploy].each do |application, deploy|
     end
   end
 
-  link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:system_path]}" do
+  link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:wordpress_path]}" do
     to "#{deploy[:deploy_to]}/current/vendor/wordpress/wordpress"
 
     only_if do
