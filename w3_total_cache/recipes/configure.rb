@@ -55,7 +55,7 @@ node[:deploy].each do |application, deploy|
       end
     end
 
-    template "#{deploy[:deploy_to]}/current/shared/config/object-cache.php" do
+    template "#{deploy[:deploy_to]}/shared/config/object-cache.php" do
       cookbook 'w3_total_cache'
       source "object-cache.#{deploy[:wordpress][:cache][:version]}.php.erb"
       mode '0660'
