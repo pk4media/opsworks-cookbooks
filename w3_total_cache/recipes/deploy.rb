@@ -2,6 +2,8 @@ include_recipe "w3_total_cache::configure"
 include_recipe "wordpress::deploy"
 
 node[:deploy].each do |application, deploy|
+  deploy = node[:deploy][application]
+  
   if deploy[:wordpress][:cache][:enabled]
     Chef::Log.debug("Wordpress w3-total-cache enabled for application #{application}")
 
