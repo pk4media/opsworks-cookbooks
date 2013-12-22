@@ -1,3 +1,5 @@
+include_attribute 'wordpress'
+
 node[:deploy].each do |application, deploy|
   default[:deploy][application][:wordpress][:cache][:enabled] = false
   default[:deploy][application][:wordpress][:cache][:version] = '0.9.3'
