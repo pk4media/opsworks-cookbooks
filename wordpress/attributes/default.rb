@@ -3,7 +3,5 @@ default[:wordpress][:composer][:install_command] = "curl -sS https://getcomposer
 
 node[:deploy].each do |application, deploy|
   default[:deploy][application][:wordpress][:debug] = false
-
-  default[:deploy][application][:wordpress][:content_path] = 'wp-content'
   default[:deploy][application][:wordpress][:default_theme] = 'twentyfourteen'
 end

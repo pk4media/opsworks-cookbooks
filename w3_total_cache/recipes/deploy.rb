@@ -3,12 +3,12 @@ include_recipe "wordpress::deploy"
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
-  
+
   if deploy[:wordpress][:cache][:enabled]
     Chef::Log.debug("Wordpress w3-total-cache enabled for application #{application}")
 
     # Setup the w3-total-cache config folder
-    directory "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config" do
+    directory "#{deploy[:deploy_to]}/current/wp-content/w3tc-config" do
       owner deploy[:user]
       group deploy[:group]
       mode '0775'
@@ -16,7 +16,7 @@ node[:deploy].each do |application, deploy|
       recursive true
     end
 
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config/master.php" do
+    link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master.php" do
       to "#{deploy[:deploy_to]}/shared/config/master.php"
 
       only_if do
@@ -24,7 +24,7 @@ node[:deploy].each do |application, deploy|
       end
     end
     
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/w3tc-config/master-admin.php" do
+    link "#{deploy[:deploy_to]}/current/wp-content/w3tc-config/master-admin.php" do
       to "#{deploy[:deploy_to]}/shared/config/master-admin.php"
 
       only_if do
@@ -32,7 +32,7 @@ node[:deploy].each do |application, deploy|
       end
     end
 
-    template "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/plugins/w3tc-wp-loader.php" do
+    template "#{deploy[:deploy_to]}/current/wp-content/plugins/w3tc-wp-loader.php" do
       cookbook 'w3_total_cache'
       source 'w3tc-wp-loader.php.erb'
       mode '0660'
@@ -41,15 +41,15 @@ node[:deploy].each do |application, deploy|
       variables(:deploy_to => deploy[:deploy_to])
     end
 
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/cache" do
+    link "#{deploy[:deploy_to]}/current/wp-content/cache" do
       to "#{deploy[:deploy_to]}/shared/cache"
     end
 
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/advanced-cache.php" do
+    link "#{deploy[:deploy_to]}/current/wp-content/advanced-cache.php" do
       to "#{deploy[:deploy_to]}/shared/config/advanced-cache.php"
     end
 
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/db.php" do
+    link "#{deploy[:deploy_to]}/current/wp-content/db.php" do
       to "#{deploy[:deploy_to]}/shared/config/db.php"
 
       only_if do
@@ -57,7 +57,7 @@ node[:deploy].each do |application, deploy|
       end
     end
 
-    link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/object-cache.php" do
+    link "#{deploy[:deploy_to]}/current/wp-content/object-cache.php" do
       to "#{deploy[:deploy_to]}/shared/config/object-cache.php"
 
       only_if do

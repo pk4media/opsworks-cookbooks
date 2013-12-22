@@ -18,10 +18,8 @@ define('WP_CACHE', true);
 define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . <%= "/wordpress".inspect %>);
 define('WP_HOME',    'http://' . $_SERVER['SERVER_NAME']);
 
-<% unless @wordpress[:content_path].blank? %>
-  define('WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . <%= @wordpress[:content_path].to_s.inspect %>);
-  define('WP_CONTENT_URL', 'http://' . $_SERVER['SERVER_NAME'] . <%= "/#{@wordpress[:content_path]}".inspect %>);
-<% end %>
+define('WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . 'wp-content');
+define('WP_CONTENT_URL', 'http://' . $_SERVER['SERVER_NAME'] . '/wp-content');
 
 <% unless @wordpress[:default_theme].blank? %>
   define('WP_DEFAULT_THEME', <%= @wordpress[:default_theme].to_s.inspect %>);

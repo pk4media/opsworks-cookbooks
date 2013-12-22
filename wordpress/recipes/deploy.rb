@@ -12,7 +12,7 @@ node[:deploy].each do |application, deploy|
   end
 
   # Symlink the persisted uploads folder into the current deployment
-  link "#{deploy[:deploy_to]}/current/#{deploy[:wordpress][:content_path]}/uploads" do
+  link "#{deploy[:deploy_to]}/current/wp-content/uploads" do
     to "#{deploy[:deploy_to]}/shared/uploads"
   end
 
