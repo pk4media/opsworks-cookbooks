@@ -3,7 +3,7 @@ include_recipe "wordpress::deploy"
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
-  
+
   if deploy[:wordpress][:cache][:enabled]
     Chef::Log.debug("Wordpress w3-total-cache enabled for application #{application}")
 
@@ -49,19 +49,15 @@ node[:deploy].each do |application, deploy|
       to "#{deploy[:deploy_to]}/shared/config/advanced-cache.php"
     end
 
-    link "#{deploy[:deploy_to]}/current/wp-content/db.php" do
-      to "#{deploy[:deploy_to]}/shared/config/db.php"
-
-      only_if do
-        deploy[:wordpress][:cache][:db][:enabled]
+    if deploy[:wordpress][:cache][:db][:enabled]
+      link "#{deploy[:deploy_to]}/current/wp-content/db.php" do
+        to "#{deploy[:deploy_to]}/shared/config/db.php"
       end
     end
 
-    link "#{deploy[:deploy_to]}/current/wp-content/object-cache.php" do
-      to "#{deploy[:deploy_to]}/shared/config/object-cache.php"
-
-      only_if do
-        deploy[:wordpress][:cache][:objectcache][:enabled]
+    if deploy[:wordpress][:cache][:objectcache][:enabled]
+      link "#{deploy[:deploy_to]}/current/wp-content/object-cache.php" do
+        to "#{deploy[:deploy_to]}/shared/config/object-cache.php"
       end
     end
     
