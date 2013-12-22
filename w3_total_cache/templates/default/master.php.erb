@@ -103,7 +103,7 @@ return array(
   'pgcache.cache.404' => <%= (!!@cache[:pgcache][:cache][:_404]).to_s %>,
   'pgcache.cache.flush' => false,
   'pgcache.cache.headers' => array(
-    <% @cache[:pgcache][:cache][:headers].each do |header, index| %>
+    <% @cache[:pgcache][:cache][:headers].each_with_index do |header, index| %>
       <%= index.to_s %> => <%= header.to_s.inspect %>,
     <% end %>
   ),
@@ -304,7 +304,7 @@ return array(
   'cdn.cf.bucket' => <%= @cache[:cdn][:cf][:bucket].to_s.inspect %>,
   'cdn.cf.id' => <%= @cache[:cdn][:cf][:id].to_s.inspect %>,
   'cdn.cf.cname' => array(
-    <% @cache[:cdn][:cf][:cname].each do |cname, index| %>
+    <% @cache[:cdn][:cf][:cname].each_with_index do |cname, index| %>
       <%= index.to_s %> => <%= cname.to_s.inspect %>,
     <% end %>
   ),
@@ -313,7 +313,7 @@ return array(
   'cdn.cf2.secret' => <%= @cache[:cdn][:cf2][:secret].to_s.inspect %>,
   'cdn.cf2.id' => <%= @cache[:cdn][:cf2][:id].to_s.inspect %>,
   'cdn.cf2.cname' => array(
-    <% @cache[:cdn][:cf2][:cname].each do |cname, index| %>
+    <% @cache[:cdn][:cf2][:cname].each_with_index do |cname, index| %>
       <%= index.to_s %> => <%= cname.to_s.inspect %>,
     <% end %>
   ),

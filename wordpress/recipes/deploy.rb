@@ -40,4 +40,12 @@ node[:deploy].each do |application, deploy|
       ::File.exists?("#{deploy[:deploy_to]}/current/vendor/wordpress/wordpress")
     end
   end
+
+  template "#{deploy[:deploy_to]}/current/vendor/wordpress/wp-config.php" do
+    cookbook 'wordpress'
+    source 'wp-config-link.php.erb'
+    mode '0640'
+    owner deploy[:user]
+    group deploy[:group]
+  end
 end

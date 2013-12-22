@@ -4,7 +4,7 @@ node[:deploy].each do |application, deploy|
     Chef::Log.debug("Adding wordpress config for application #{application}")
     cookbook 'wordpress'
     source 'wp-config.php.erb'
-    mode '0660'
+    mode '0640'
     owner deploy[:user]
     group deploy[:group]
     variables(:database => deploy[:database], :wordpress => deploy[:wordpress])
