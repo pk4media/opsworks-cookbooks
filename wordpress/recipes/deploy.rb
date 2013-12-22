@@ -2,7 +2,9 @@ include_recipe "wordpress::configure"
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
-  
+
+  Chef::Log.debug("Deploying wordpress for #{application} with settings: #{deploy.inspect}")
+
   # Link the wordpress configuration to the value in the shared folder
   link "#{deploy[:deploy_to]}/current/wp-config.php" do
     to "#{deploy[:deploy_to]}/shared/config/wp-config.php"
