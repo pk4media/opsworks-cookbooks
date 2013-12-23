@@ -175,7 +175,7 @@ return array(
     0 => <%= "#{@memcached[:host]}:#{@memcached[:port]}".inspect %>,
   ),
   'minify.memcached.persistant' => true,
-  'minify.rewrite' => true,
+  'minify.rewrite' => <%= (!!@cache[:minify][:rewrite]).to_s %>,
   'minify.options' => array(
   ),
   'minify.symlinks' => array(
