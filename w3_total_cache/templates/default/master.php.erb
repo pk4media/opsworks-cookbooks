@@ -386,7 +386,7 @@ return array(
   ),
   'cdn.reject.files' => array(
     <% @cache[:cdn][:reject][:files].each_with_index do |file, index| %>
-      <%= index.to_s %> => <%= file.to_s.inspect %>
+      <%= index.to_s %> => <%= file.to_s.inspect %>,
     <% end %>
   ),
   'cdn.reject.ssl' => false,
