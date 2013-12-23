@@ -12,3 +12,5 @@ RewriteRule . /index.php [L]
 <% @partials.each do |partial| %>
   <%= render partial[:template], :cookbook => partial[:cookbook], :variables => partial[:variables] %>
 <% end %>
+
+php_value upload_max_filesize <%= @upload_max_filesize.to_s %>
