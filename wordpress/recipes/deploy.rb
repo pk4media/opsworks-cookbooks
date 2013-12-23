@@ -63,7 +63,7 @@ node[:deploy].each do |application, deploy|
 
   htaccess_partials = []
   htaccess_partials << {:template => 'htaccess-browsercache.erb', :cookbook => 'w3_total_cache', :variables => {:cache => deploy[:wordpress][:cache]}} if deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:browsercache][:enabled]
-  htaccess_partials << {:template => 'htaccess-cdn.erb', :cookbook => 'w3_total_cache', :variables => {:cache => deploy[:wordpress][:cache]}} if deploy[:wordpress][:cache][:enabled] && deploy[:wordperss][:cache][:cdn][:enabled]
+  htaccess_partials << {:template => 'htaccess-cdn.erb', :cookbook => 'w3_total_cache', :variables => {:cache => deploy[:wordpress][:cache]}} if deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:cdn][:enabled]
   template "#{deploy[:deploy_to]}/current/.htaccess" do
     cookbook 'wordpress'
     source 'htaccess.erb'
