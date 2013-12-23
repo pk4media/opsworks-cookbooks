@@ -5,3 +5,5 @@ node[:deploy].each do |application, deploy|
   default[:deploy][application][:wordpress][:debug] = false
   default[:deploy][application][:wordpress][:default_theme] = 'twentyfourteen'
 end
+
+include_attribute 'w3_total_cache'

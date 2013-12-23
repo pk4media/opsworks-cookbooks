@@ -49,6 +49,18 @@ node[:deploy].each do |application, deploy|
     group deploy[:group]
   end
 
+  htaccess_partials = []
+  htaccess_partials << {:template => 'htaccess-browsercache.erb', :cookbook => 'w3_total_cache', :variables => {:cache => deploy[:wordpress][:cache]}} if deploy[:wordpress][:cache][:enabled] && deploy[:wordpress][:cache][:browsercache][:enabled]
+  htaccess_partials << {:template => 'htaccess-cdn.erb', :cookbook => 'w3_total_cache', :variables => {:cache => deploy[:wordpress][:cache]}} if deploy[:wordpress][:cache][:enabled] && deploy[:wordperss][:cache][:cdn][:enabled]
+  template "#{deploy[:deploy_to]}/current/.htaccess" do
+    cookbook 'wordpress'
+    source 'htaccess.erb'
+    mode '0640'
+    owner deploy[:user]
+    group deploy[:group]
+    variables(:partials => htaccess_partials)
+  end
+
   execute "harden_directories" do
     command "find #{deploy[:deploy_to]}/current/ -type d -exec chmod 755 {} \\;"
     user deploy[:user]
