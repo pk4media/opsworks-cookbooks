@@ -4,6 +4,12 @@ node[:deploy].each do |application, deploy|
   default[:deploy][application][:wordpress][:cache][:cdn][:debug] = false
   default[:deploy][application][:wordpress][:cache][:cdn][:engine] = 'cf2'
 
+  default[:deploy][application][:wordpress][:cache][:cdn][:reject][:files] = [
+    '{uploads_dir}/wpcf7_captcha/*',
+    '{uploads_dir}/imagerotator.swf',
+    '{plugins_dir}/wp-fb-autoconnect/facebook-platform/channel.html'
+  ]
+
   default[:deploy][application][:wordpress][:cache][:cdn][:cf][:key] = deploy[:aws_key]
   default[:deploy][application][:wordpress][:cache][:cdn][:cf][:secret] = deploy[:aws_secret]
   default[:deploy][application][:wordpress][:cache][:cdn][:cf][:bucket] = ''

@@ -385,9 +385,9 @@ return array(
     0 => '',
   ),
   'cdn.reject.files' => array(
-    0 => '{uploads_dir}/wpcf7_captcha/*',
-    1 => '{uploads_dir}/imagerotator.swf',
-    2 => '{plugins_dir}/wp-fb-autoconnect/facebook-platform/channel.html',
+    <% @cache[:cdn][:reject][:files].each_with_index do |file, index| %>
+      <%= index.to_s %> => <%= file.to_s.inspect %>
+    <% end %>
   ),
   'cdn.reject.ssl' => false,
   'cdncache.enabled' => false,
