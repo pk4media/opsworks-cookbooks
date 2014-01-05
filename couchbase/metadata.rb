@@ -5,7 +5,7 @@ license           "Apache 2.0"
 description       "Installs the couchbase client library"
 version           "0.1"
 
-recipe 'couchbase'
-recipe 'couchbase::client'
+recipe 'couchbase', 'Default recipe, installs the libcouchbase client'
+recipe 'couchbase::client', 'Install the libcouchbase client'
 
 depends 'yum'
