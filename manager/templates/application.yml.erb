@@ -1,0 +1,24 @@
+<% (['development', 'production'] + [@environment]).uniq.each do |env| %>
+<%= env %>:
+  name: <%= @config[:name].to_s.inspect %>
+  test: <%= (!!@config[:test]).to_s.inspect %>
+  ad_server:
+    host: <%= @config[:ad_server][:host].to_s.inspect %>
+  <% if @config[:ad_server][:port] %>
+    port: <%= @config[:ad_server][:port].to_i %>
+  <% end %>
+  pixels:
+    host: <%= @config[:pixels][:host].to_s.inspect %>
+  <% if @config[:pixels][:port] %>
+    port: <%= @config[:pixels][:port].to_i %>
+  <% end %>
+  instrumentation:
+    bucket: <%= @config[:instrumentation][:bucket].to_s.inspect %>
+    password: <%= @config[:instrumentation][:password].to_s.inspect %>
+    node_list:<% @config[:instrumentation][:node_list].each do |node| %>
+      - <%= node.to_s.inspect %>
+    <% end %>
+  aws:
+    access_key: <%= @config[:aws][:access_key].to_s.inspect %>
+    secret_key: <%= @config[:aws][:secret_key].to_s.inspect %>
+<% end %>
