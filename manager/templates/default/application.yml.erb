@@ -18,7 +18,4 @@
     node_list:<% @config[:instrumentation][:node_list].each do |node| %>
       - <%= node.to_s.inspect %>
     <% end %>
-  aws:
-    access_key: <%= @config[:aws][:access_key].to_s.inspect %>
-    secret_key: <%= @config[:aws][:secret_key].to_s.inspect %>
 <% end %>

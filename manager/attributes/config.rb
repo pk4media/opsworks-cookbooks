@@ -12,7 +12,4 @@ node[:deploy].each do |application, deploy|
   default[:deploy][application][:manager][:config][:instrumentation][:node_list] = []
   default[:deploy][application][:manager][:config][:instrumentation][:bucket] = 'instrumentation'
   default[:deploy][application][:manager][:config][:instrumentation][:password] = nil
-
-  default[:deploy][application][:manager][:config][:aws][:access_key] = nil
-  default[:deploy][application][:manager][:config][:aws][:secret_key] = nil
 end
