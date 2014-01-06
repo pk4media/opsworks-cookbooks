@@ -1,7 +1,7 @@
 node[:deploy].each do |application, deploy|
   template "#{deploy[:deploy_to]}/shared/config/aws.yml" do
     Chef::Log.debug "Adding aws config for #{application}"
-    cookbook 'helpers'
+    cookbook 'rails_helpers'
     source 'aws.yml.erb'
     mode '0640'
     owner deploy[:user]
