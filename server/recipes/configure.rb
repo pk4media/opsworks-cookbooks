@@ -6,6 +6,6 @@ node[:deploy].each do |application, deploy|
     mode '0640'
     owner deploy[:user]
     group deploy[:group]
-    variables(:environment => deploy[:rails_env], :config => deploy[:manager][:config])
+    variables(:environment => deploy[:rails_env], :config => deploy[:server][:config])
   end
 end
