@@ -15,6 +15,11 @@ define('WP_CACHE', true);
  * @package WordPress
  */
 
+<% if @wordpress[:debug] %>
+  error_reporting(E_ALL); ini_set('display_errors', 1);
+  define('WP_DEBUG', true);
+<% end %>
+
 // Set the permissiosn for newly created folders to 0775 to allow uploads to work 
 define('FS_CHMOD_DIR', (0775 & ~ umask()));
 
@@ -26,11 +31,6 @@ define('WP_CONTENT_URL', 'http://' . $_SERVER['SERVER_NAME'] . '/wp-content');
 
 <% unless @wordpress[:default_theme].blank? %>
   define('WP_DEFAULT_THEME', <%= @wordpress[:default_theme].to_s.inspect %>);
-<% end %>
-
-<% if @wordpress[:debug] %>
-  error_reporting(E_ALL); ini_set('display_errors', 1);
-  define('WP_DEBUG', true);
 <% end %>
 
 // ** MySQL settings - You can get this info from your web host ** //
