@@ -1,6 +1,7 @@
 <% (['development', 'production'] + [@environment]).uniq.each do |env| %>
 <%= env %>:
   name: <%= @config[:name].to_s.inspect %>
+  short_name: <%= @config[:short_name].to_s.inspect %>
   test: <%= (!!@config[:test]).to_s.inspect %>
   ad_server:
     host: <%= @config[:ad_server][:host].to_s.inspect %>

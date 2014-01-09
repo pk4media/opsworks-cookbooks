@@ -3,6 +3,7 @@ node[:deploy].each do |application, deploy|
   default[application][:cron][:report_reconcile][:hours] = '*'
 
   default[:deploy][application][:manager][:config][:name] = 'XPS Ad Manager'
+  default[:deploy][application][:manager][:config][:short_name] = 'XPS'
 
   default[:deploy][application][:manager][:config][:test] = false
 
