@@ -16,7 +16,7 @@ define('WP_CACHE', true);
  */
 
 // Set the permissiosn for newly created folders to 0775 to allow uploads to work 
-define('FS_CHMOD_DIR', (0775 & ~ umask());
+define('FS_CHMOD_DIR', (0775 & ~ umask()));
 
 define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . '/wordpress');
 define('WP_HOME',    'http://' . $_SERVER['SERVER_NAME']);
