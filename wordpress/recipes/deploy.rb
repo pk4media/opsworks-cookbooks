@@ -50,7 +50,7 @@ node[:deploy].each do |application, deploy|
   end
 
   execute "harden_directories" do
-    command "find #{deploy[:deploy_to]}/current/ -type d -exec chmod 755 {} \\;"
+    command "find #{deploy[:deploy_to]}/current/ -type d -exec chmod 775 {} \\;"
     user deploy[:user]
     group deploy[:group]
   end
