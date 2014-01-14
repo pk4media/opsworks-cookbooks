@@ -56,7 +56,7 @@ node[:deploy].each do |application, deploy|
   end
 
   execute "harden_files" do
-    command "find #{deploy[:deploy_to]}/current/ -type f -exec chmod 644 {} \\;"
+    command "find #{deploy[:deploy_to]}/current/ -type f -exec chmod 664 {} \\;"
     user deploy[:user]
     group deploy[:group]
   end
