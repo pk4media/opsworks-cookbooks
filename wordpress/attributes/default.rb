@@ -3,6 +3,7 @@ default[:wordpress][:composer][:install_command] = "curl -sS https://getcomposer
 
 node[:deploy].each do |application, deploy|
   default[:deploy][application][:wordpress][:debug] = false
+  default[:deploy][application][:wordpress][:domain] = nil
   default[:deploy][application][:wordpress][:default_theme] = 'twentyfourteen'
   default[:deploy][application][:wordpress][:upload_max_filesize] = '2M'
 end
