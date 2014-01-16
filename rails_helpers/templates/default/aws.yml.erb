@@ -5,4 +5,5 @@ defaults: &defaults
 <% (['development', 'production'] + [@environment]).uniq.each do |env| %>
 <%= env %>:
   <<: *defaults
+
 <% end %>
