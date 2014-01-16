@@ -1,5 +1,8 @@
+defaults: &defaults
+  access_key_id: <%= @aws[:access_key_id].to_s %>
+  secret_access_key: <%= @aws[:secret_access_key].to_s %>
+
 <% (['development', 'production'] + [@environment]).uniq.each do |env| %>
 <%= env %>:
-  access_key_id: <%= @aws[:access_key_id].to_s.inspect %>
-  secret_access_key: <%= @aws[:secret_access_key].to_s.inspect %>
+  <<: *defaults
 <% end %>
