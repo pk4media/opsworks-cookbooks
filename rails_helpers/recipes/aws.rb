@@ -12,4 +12,12 @@ node[:deploy].each do |application, deploy|
       deploy[:aws][:access_key_id] && deploy[:aws][:secret_access_key]
     end
   end
+
+  link "#{deploy[:deploy_to]}/current/config/aws.yml" do
+    to "#{deploy[:deploy_to]}/shared/config/aws.yml"
+
+    only_if do
+      ::File.exists?("#{deploy[:deploy_to]}/shared/config/aws.yml")
+    end
+  end
 end

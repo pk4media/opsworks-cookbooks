@@ -8,4 +8,12 @@ node[:deploy].each do |application, deploy|
   file "#{deploy[:deploy_to]}/current/config/application.yml" do
     action :delete
   end
+
+  link "#{deploy[:deploy_to]}/current/config/application.yml" do
+    to "#{deploy[:deploy_to]}/shared/config/application.yml"
+
+    only_if do
+      ::File.exists?("#{deploy[:deploy_to]}/shared/config/application.yml")
+    end
+  end
 end
