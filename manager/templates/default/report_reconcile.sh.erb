@@ -10,7 +10,7 @@ fi
 cd <%= @current %>
 export PATH=/usr/local/bin:$PATH
 export RAILS_ENV=<%= @environment %>
-/usr/local/bin/bundle exec rake adserver:line_item:reconcile --silent
+/usr/local/bin/bundle exec rake adserver:line_items:reconcile --silent
 
 # End of lock section
 flock -u 8
