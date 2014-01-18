@@ -1,8 +1,7 @@
 node[:deploy].each do |application, deploy|
 
   file "#{deploy[:deploy_to]}/shared/config/application.yml" do
-    CHEF::Log.debug "#{deploy[:rails_app][:config].to_hash}"
-    content ::YAML::dump(Hash[deploy[:rails_env], deploy[:rails_app][:config].to_hash])
+    content YAML.dump(Hash[deploy[:rails_env], deploy[:rails_app][:config].to_hash].gsub('!map:Chef::Node::ImmutableMash','')).gsub('!map:Chef::Node::ImmutableMash','')
     owner deploy[:user]
     group deploy[:group]
     mode 0640
