@@ -1,4 +1,9 @@
 node[:deploy].each do |application, deploy|
+  config = Hash[deploy[:rails_env], deploy[:rails_app][:config].to_hash] if deploy[:rails_app][:write_config]
+  File.open(File.join(deploy[:deploy_to], 'shared', 'config', 'application.yml'), 'w', 0640) do |file|
+    file.write YAML.dump(config)
+  end if config
+
   template "#{deploy[:deploy_to]}/shared/config/aws.yml" do
     Chef::Log.debug "Adding aws config for #{application}"
     cookbook 'rails_helpers'
@@ -10,14 +15,6 @@ node[:deploy].each do |application, deploy|
 
     only_if do
       deploy[:aws][:access_key_id] && deploy[:aws][:secret_access_key]
-    end
-  end
-
-  link "#{deploy[:deploy_to]}/current/config/aws.yml" do
-    to "#{deploy[:deploy_to]}/shared/config/aws.yml"
-
-    only_if do
-      ::File.exists?("#{deploy[:deploy_to]}/shared/config/aws.yml")
     end
   end
 end
