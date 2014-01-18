@@ -1,11 +1,10 @@
 node[:deploy].each do |application, deploy|
-  ruby_block 'application.yml' do
-    block do
-      config = Hash[deploy[:rails_env], deploy[:rails_app][:config].to_hash]
-      ::File.open(::File.join(deploy[:deploy_to], 'shared', 'config', 'application.yml'), 'w', 0640) do |file|
-        file.write YAML.dump(config)
-      end
-    end
+
+  file "#{deploy[:deploy_to]}/shared/config/application.yml" do
+    content YAML.dump(Hash[deploy[:rails_env], deploy[:rails_app][:config].to_hash])
+    owner deploy[:user]
+    group deploy[:group]
+    mode 0640
 
     only_if do
       deploy[:rails_app][:write_config]
