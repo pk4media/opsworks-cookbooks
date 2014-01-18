@@ -1,7 +1,8 @@
 node[:deploy].each do |application, deploy|
 
   file "#{deploy[:deploy_to]}/shared/config/application.yml" do
-    content YAML::dump(Hash[deploy[:rails_env], deploy[:rails_app][:config].to_hash])
+    CHEF::Log.debug "#{deploy[:rails_app][:config].to_hash}"
+    content ::YAML::dump(Hash[deploy[:rails_env], deploy[:rails_app][:config].to_hash])
     owner deploy[:user]
     group deploy[:group]
     mode 0640
