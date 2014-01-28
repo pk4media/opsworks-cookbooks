@@ -1,0 +1,17 @@
+#!/bin/bash
+# start of the lock sections
+LOCKFILE=/tmp/<%= @lock %>
+exec 8>"$LOCKFILE"
+if ! flock -n 8;then
+      echo Rejected  # for testing, remove this later
+      exit           # exit, since we don't have lock
+fi
+
+cd <%= @current %>
+export PATH=/usr/local/bin:$PATH
+export RAILS_ENV=<%= @environment %>
+/usr/local/bin/bundle exec rake xps:rollup:display_creative_date_hour_device_dma --silent
+
+# End of lock section
+flock -u 8
+rm -f "$LOCKFILE"
