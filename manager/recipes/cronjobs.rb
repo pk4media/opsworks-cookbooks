@@ -24,7 +24,7 @@ node[:deploy].each do |application, deploy|
   end
 
   cron "#{application}_display_rolling" do
-    minute '*/2'
+    minute '*/1'
     command "#{deploy[:deploy_to]}/shared/scripts/display_rolling.sh"
   end
 
@@ -38,7 +38,7 @@ node[:deploy].each do |application, deploy|
   end
 
   cron "#{application}_video_rolling" do
-    minute '*/2'
+    minute '*/1'
     command "#{deploy[:deploy_to]}/shared/scripts/video_rolling.sh"
   end
 

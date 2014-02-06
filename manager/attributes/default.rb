@@ -1,5 +1,5 @@
 node[:deploy].each do |application, deploy|
-  default[application][:cron][:report_reconcile][:minutes] = '*/1'
+  default[application][:cron][:report_reconcile][:minutes] = '*/2'
   default[application][:cron][:report_reconcile][:hours] = '*'
 
   default[:deploy][application][:manager][:config][:name] = 'XPS Ad Manager'
