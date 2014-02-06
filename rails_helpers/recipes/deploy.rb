@@ -30,7 +30,7 @@ node[:deploy].each do |application, deploy|
 
   execute "tmp-permissions" do
     cwd "#{deploy[:deploy_to]}/current"
-    command "chown -R tmp #{deploy[:user]}:#{deploy[:group]}"
+    command "chown -R #{deploy[:user]}:#{deploy[:group]} tmp"
     action :run
 
     only_if do
