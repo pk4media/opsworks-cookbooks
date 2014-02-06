@@ -31,6 +31,9 @@ node[:deploy].each do |application, deploy|
   directory "#{deploy[:deploy_to]}/current/tmp/cache" do
     owner deploy[:user]
     group deploy[:group]
+    mode 0755
+    action :create
+    recursive true
   end
 
   execute "restart_rails" do
