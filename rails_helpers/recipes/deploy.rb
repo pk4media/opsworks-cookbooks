@@ -28,11 +28,14 @@ node[:deploy].each do |application, deploy|
     end
   end
 
-  directory "#{deploy[:deploy_to]}/current/tmp" do
-    owner deploy[:user]
-    group deploy[:group]
+  execute "tmp-permissions" do
+    cwd "#{deploy[:deploy_to]}/current"
+    command "chown -R tmp #{deploy[:user]}:#{deploy[:group]}"
+    action :run
 
-    recursive true
+    only_if do
+      ::File.exists?("#{deploy[:deploy_to]}/current/tmp")
+    end
   end
 
   execute "restart_rails" do
