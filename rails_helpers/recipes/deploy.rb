@@ -36,6 +36,7 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
+=begin
   execute "restart_rails" do
     cwd "#{deploy[:deploy_to]}/current"
     command "sleep #{deploy[:sleep_before_restart]} && #{node[:opsworks][:rails_stack][:restart_command]}"
@@ -45,4 +46,5 @@ node[:deploy].each do |application, deploy|
       File.exists?("#{deploy[:deploy_to]}/current")
     end
   end
+=end
 end
