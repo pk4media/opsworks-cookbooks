@@ -53,6 +53,13 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
+  execute "assets_precompile" do
+    cwd "#{deploy[:deploy_to]}/current"
+    command "RAILS_ENV=production bundle exec rake assets:precompile"
+    user deploy[:user]
+    action :run
+  end
+
   execute "restart_rails" do
     cwd "#{deploy[:deploy_to]}/current"
     command "sleep #{deploy[:sleep_before_restart]} && #{node[:opsworks][:rails_stack][:restart_command]}"
