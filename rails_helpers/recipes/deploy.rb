@@ -53,9 +53,10 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
-  execute "assets_precompile" do
+  execute "rake assets:precompile" do
     cwd "#{deploy[:deploy_to]}/current"
-    command "RAILS_ENV=#{deploy[:rails_env]} bundle exec rake assets:precompile"
+    command "bundle exec rake assets:precompile"
+    environment "RAILS_ENV" => deploy[:rails_env]
     user deploy[:user]
     action :run
   end
