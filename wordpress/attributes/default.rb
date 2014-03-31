@@ -8,4 +8,4 @@ node[:deploy].each do |application, deploy|
   default[:deploy][application][:wordpress][:upload_max_filesize] = '2M'
 end
 
-include_attribute 'w3_total_cache'
+#include_attribute 'w3_total_cache'
