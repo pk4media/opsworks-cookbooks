@@ -433,7 +433,7 @@ return array(
   'browsercache.cssjs.cache.policy' => 'cache_public_maxage',
   'browsercache.cssjs.etag' => false,
   'browsercache.cssjs.w3tc' => true,
-  'browsercache.cssjs.replace' => false,
+  'browsercache.cssjs.replace' => <%= (!!@cache[:browsercache][:cssjs][:replace]).to_s %>,
   'browsercache.html.compression' => true,
   'browsercache.html.last_modified' => true,
   'browsercache.html.expires' => true,
@@ -452,7 +452,7 @@ return array(
   'browsercache.other.cache.policy' => 'cache_public_maxage',
   'browsercache.other.etag' => false,
   'browsercache.other.w3tc' => true,
-  'browsercache.other.replace' => false,
+  'browsercache.other.replace' => <%= (!!@cache[:browsercache][:other][:replace]).to_s %>,
   'browsercache.timestamp' => '1387410634',
   'browsercache.replace.exceptions' => array(
     0 => '',
